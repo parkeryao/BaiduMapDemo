@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25718BCB2EF1623B03D0B84E /* libPods-BaiduMapDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF0106A5A9953428C9C0271D /* libPods-BaiduMapDemo.a */; };
 		4E9EDE1E224318A8003B075C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9EDE1D224318A8003B075C /* AppDelegate.m */; };
 		4E9EDE21224318A8003B075C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9EDE20224318A8003B075C /* ViewController.m */; };
 		4E9EDE24224318A8003B075C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E9EDE22224318A8003B075C /* Main.storyboard */; };
 		4E9EDE26224318AA003B075C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4E9EDE25224318AA003B075C /* Assets.xcassets */; };
 		4E9EDE29224318AA003B075C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E9EDE27224318AA003B075C /* LaunchScreen.storyboard */; };
 		4E9EDE2C224318AA003B075C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9EDE2B224318AA003B075C /* main.m */; };
+		4E9EDE342243224C003B075C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9EDE322243224C003B075C /* libcrypto.a */; };
+		4E9EDE352243224C003B075C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9EDE332243224C003B075C /* libssl.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,11 @@
 		4E9EDE28224318AA003B075C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4E9EDE2A224318AA003B075C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E9EDE2B224318AA003B075C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4E9EDE322243224C003B075C /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../Downloads/4.3.0/thirdlibs/libcrypto.a; sourceTree = "<group>"; };
+		4E9EDE332243224C003B075C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../../Downloads/4.3.0/thirdlibs/libssl.a; sourceTree = "<group>"; };
+		971DAA7869FA8746967593E2 /* Pods-BaiduMapDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaiduMapDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-BaiduMapDemo/Pods-BaiduMapDemo.release.xcconfig"; sourceTree = "<group>"; };
+		9AC19F53B34FEF9DA9882141 /* Pods-BaiduMapDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaiduMapDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BaiduMapDemo/Pods-BaiduMapDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		FF0106A5A9953428C9C0271D /* libPods-BaiduMapDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BaiduMapDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +41,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E9EDE342243224C003B075C /* libcrypto.a in Frameworks */,
+				4E9EDE352243224C003B075C /* libssl.a in Frameworks */,
+				25718BCB2EF1623B03D0B84E /* libPods-BaiduMapDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +55,8 @@
 			children = (
 				4E9EDE1B224318A8003B075C /* BaiduMapDemo */,
 				4E9EDE1A224318A8003B075C /* Products */,
+				EA165C6E679B813324BD5F7C /* Pods */,
+				DEC20DCEEA2C451A87102816 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +84,25 @@
 			path = BaiduMapDemo;
 			sourceTree = "<group>";
 		};
+		DEC20DCEEA2C451A87102816 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E9EDE322243224C003B075C /* libcrypto.a */,
+				4E9EDE332243224C003B075C /* libssl.a */,
+				FF0106A5A9953428C9C0271D /* libPods-BaiduMapDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA165C6E679B813324BD5F7C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9AC19F53B34FEF9DA9882141 /* Pods-BaiduMapDemo.debug.xcconfig */,
+				971DAA7869FA8746967593E2 /* Pods-BaiduMapDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -78,9 +110,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4E9EDE2F224318AA003B075C /* Build configuration list for PBXNativeTarget "BaiduMapDemo" */;
 			buildPhases = (
+				1012FC34A4C80B4D1FD26E8D /* [CP] Check Pods Manifest.lock */,
 				4E9EDE15224318A8003B075C /* Sources */,
 				4E9EDE16224318A8003B075C /* Frameworks */,
 				4E9EDE17224318A8003B075C /* Resources */,
+				D091EA251122D6FA9A61F129 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -135,6 +169,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1012FC34A4C80B4D1FD26E8D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BaiduMapDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D091EA251122D6FA9A61F129 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BaiduMapDemo/Pods-BaiduMapDemo-resources.sh",
+				"${PODS_ROOT}/BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/mapapi.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mapapi.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BaiduMapDemo/Pods-BaiduMapDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4E9EDE15224318A8003B075C /* Sources */ = {
@@ -283,6 +356,7 @@
 		};
 		4E9EDE30224318AA003B075C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9AC19F53B34FEF9DA9882141 /* Pods-BaiduMapDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -300,6 +374,7 @@
 		};
 		4E9EDE31224318AA003B075C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 971DAA7869FA8746967593E2 /* Pods-BaiduMapDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
