@@ -21,13 +21,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     _mapManager = [[BMKMapManager alloc] init];
-    BOOL ret = [_mapManager start:@"UmmL5UXRZIyP7k2256cSRaVjQ42w1rq2"  generalDelegate:nil];
+    BOOL ret = [_mapManager start:@"UmmL5UXRZIyP7k2256cSRaVjQ42w1rq2" generalDelegate:nil];
     if (!ret) {
         NSLog(@"manager start failed!");
     }
     [BMKMapManager setCoordinateTypeUsedInBaiduMapSDK: BMK_COORDTYPE_COMMON];
     
     
+
     NSLog(@"didFinishLaunchingWithOptions");
     return YES;
 }
