@@ -150,7 +150,7 @@
         _mapView = [[BMKMapView alloc]initWithFrame:self.view.bounds];
         _mapView.delegate = self;
         _mapView.zoomLevel = 17;
-//        _mapView.showsUserLocation = YES;
+        _mapView.showsUserLocation = YES;
         [self.view addSubview:_mapView];
         
         
