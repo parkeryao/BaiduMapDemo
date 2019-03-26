@@ -11,7 +11,7 @@
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import <CoreLocation/CoreLocation.h>
 #import <BMKLocationkit/BMKLocationComponent.h>
-
+#import "ZDCPinView.h"
 
 @interface ViewController () <BMKMapViewDelegate, CLLocationManagerDelegate, BMKLocationAuthDelegate>
 
@@ -51,7 +51,7 @@
 
 - (void)loadBikeList {
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURL *url = [[NSURL alloc] initWithString:@"http://192.168.0.102:3000/bikeowners"]; //此处如果使用localhost会出现1004错误
+    NSURL *url = [[NSURL alloc] initWithString:@"http://192.168.31.155:3000/bikeowners"]; //此处如果使用localhost会出现1004错误
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
             NSLog(@"%@", error);
@@ -76,6 +76,8 @@
             //注：不在在background调用AppKit, UIKit的API，不然会报：Main Thread Checker: UI API called on a background thread: -[UIView initWithFrame:]的错误，解决办法是用这部分操作放到主线程中去
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.mapView addAnnotations:self.bikeList];
+                //将所有annotation显示在地图视图上
+                [self.mapView showAnnotations:self.bikeList animated:YES];
             });
             
         }
@@ -151,8 +153,11 @@
     if (_mapView == nil) {
         _mapView = [[BMKMapView alloc]initWithFrame:self.view.bounds];
         _mapView.delegate = self;
-        _mapView.zoomLevel = 17;
+        _mapView.zoomLevel = 15;
         _mapView.showsUserLocation = YES;
+        [_mapView setCompassPosition:CGPointMake(100, 100)];
+        CGSize compassSize =  self.mapView.compassSize;
+        [_mapView setCompassImage:[UIImage imageNamed:@"compass"]];
         [self.view addSubview:_mapView];
         
         
@@ -181,15 +186,16 @@
         if (!error) {
             NSLog(@"定位失败: %@", error);
         }
-        if (_userLocation == nil) {
-            _userLocation = [[BMKUserLocation alloc] init];
+        if (self.userLocation == nil) {
+            self.userLocation = [[BMKUserLocation alloc] init];
             
         }
         
-        _userLocation.location = location.location;
-        [_mapView updateLocationData:_userLocation];
+        self.userLocation.location = location.location;
         
-        [_mapView setCenterCoordinate:location.location.coordinate animated:YES];
+        [self.mapView updateLocationData:self.userLocation];
+        
+        [self.mapView setCenterCoordinate:location.location.coordinate animated:YES];
         
 
         
@@ -197,29 +203,64 @@
 
 }
 
-
-
-# pragma <BMKMapViewDelegate>
-- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id<BMKAnnotation>)annotation {
-    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
-        BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"annotationViewIdentifier"];
-        if (!annotationView) {
-            annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"annotationViewIdentifier"];
-            annotationView.centerOffset = CGPointMake(0, 0);
-            annotationView.calloutOffset = CGPointMake(0, 0);
-            annotationView.enabled3D = NO;
-            annotationView.enabled = YES;
-            annotationView.selected = NO;
-            annotationView.canShowCallout = YES;
-            annotationView.leftCalloutAccessoryView = nil;
-            annotationView.rightCalloutAccessoryView = nil;
-            annotationView.pinColor = BMKPinAnnotationColorRed;
-            annotationView.draggable = YES;
+#pragma mark - BMKMapViewDelegate
+- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
+{
+    if ([annotation isKindOfClass:[BMKPointAnnotation class]])
+    {
+        static NSString *reuseIndetifier = @"annotationReuseIndetifier";
+        BMKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:reuseIndetifier];
+        if (annotationView == nil)
+        {
+            annotationView = [[BMKAnnotationView alloc] initWithAnnotation:annotation
+                                                           reuseIdentifier:reuseIndetifier];
         }
+        
+        annotationView.image = [UIImage imageNamed:@"poi.png"];
+        
+        annotationView.canShowCallout = YES;
+        ZDCPinView *customPopView = [[ZDCPinView alloc] init];
+        customPopView.frame = CGRectMake(0, 0, 120.0f, 74.0f);
+        customPopView.image = [UIImage imageNamed:@"bike.png"];
+        customPopView.title = @"北京";
+        customPopView.subtitle = @"天安门";
+        
+        
+        
+        BMKActionPaopaoView *pView = [[BMKActionPaopaoView alloc] initWithCustomView:customPopView];
+        pView.backgroundColor = [UIColor lightGrayColor];
+        pView.frame = customPopView.frame;
+        annotationView.paopaoView = pView;
+        
+        annotationView.hidePaopaoWhenSingleTapOnMap = YES;
+        annotationView.hidePaopaoWhenSelectOthers = YES;
+        
         return annotationView;
     }
     return nil;
 }
+
+//# pragma <BMKMapViewDelegate>
+//- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id<BMKAnnotation>)annotation {
+//    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
+//        BMKPinAnnotationView *annotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"annotationViewIdentifier"];
+//        if (!annotationView) {
+//            annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"annotationViewIdentifier"];
+//            annotationView.centerOffset = CGPointMake(0, 0);
+//            annotationView.calloutOffset = CGPointMake(0, 0);
+//            annotationView.enabled3D = NO;
+//            annotationView.enabled = YES;
+//            annotationView.selected = NO;
+//            annotationView.canShowCallout = YES;
+//            annotationView.leftCalloutAccessoryView = nil;
+//            annotationView.rightCalloutAccessoryView = nil;
+//            annotationView.pinColor = BMKPinAnnotationColorRed;
+//            annotationView.draggable = YES;
+//        }
+//        return annotationView;
+//    }
+//    return nil;
+//}
 
 # pragma <CLLocationManagerDelegate>
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -229,6 +270,14 @@
         NSLog(@"Not authorized to open map");
     }
 }
+
+# pragma 点击POI时调整地图使得当前POI们于地图中心
+- (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view {
+    CLLocationCoordinate2D coordinate = view.annotation.coordinate;
+    [self.mapView setZoomLevel:20];
+    [self.mapView setCenterCoordinate:coordinate animated:YES];
+}
+
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
