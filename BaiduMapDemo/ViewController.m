@@ -11,9 +11,10 @@
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import <CoreLocation/CoreLocation.h>
 #import <BMKLocationkit/BMKLocationComponent.h>
+#import <BaiduMapAPI_Cloud/BMKCloudSearchComponent.h>
 #import "ZDCPinView.h"
 
-@interface ViewController () <BMKMapViewDelegate, CLLocationManagerDelegate, BMKLocationAuthDelegate>
+@interface ViewController () <BMKMapViewDelegate, CLLocationManagerDelegate, BMKLocationAuthDelegate, BMKCloudSearchDelegate>
 
 @property (nonatomic, strong) BMKMapView *mapView;
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -29,7 +30,7 @@
 
 @implementation ViewController
 
-
+BMKCloudSearch *search;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,6 +48,43 @@
 - (void)viewDidAppear:(BOOL)animated {
     NSLog(@"viewDidAppear");
     [self preOpenMap];
+}
+
+- (void) loadBikesFromBDCloud {
+    
+    if (search == nil) {
+        search = [[BMKCloudSearch alloc]init];
+    }
+    search.delegate = self;
+    
+    BMKCloudLocalSearchInfo *cloudLocalInfo = [[BMKCloudLocalSearchInfo alloc]init];
+    cloudLocalInfo.ak = @"9tSpXUogWAaagWVhTeSZffa6qMArKEjy";
+    cloudLocalInfo.geoTableId = 200474;
+    cloudLocalInfo.region = @"长沙";
+    cloudLocalInfo.keyword = @"";
+    
+    BOOL flag = [search localSearchWithSearchInfo:cloudLocalInfo];
+    if (flag) {
+        NSLog(@"搜索成功");
+    } else {
+        NSLog(@"搜索失败");
+    }
+
+    
+    BMKCloudDetailSearchInfo *cloudLocalInfo1 = [[BMKCloudDetailSearchInfo alloc]init];
+    cloudLocalInfo.ak = @"9tSpXUogWAaagWVhTeSZffa6qMArKEjy";
+    cloudLocalInfo.geoTableId = 200474;
+    cloudLocalInfo.region = @"长沙";
+    cloudLocalInfo.keyword = @"";
+    
+    BOOL flag1 = [search detailSearchWithSearchInfo:cloudLocalInfo1];
+    if (flag) {
+        NSLog(@"搜索成功");
+    } else {
+        NSLog(@"搜索失败");
+    }
+    
+    
 }
 
 - (void)loadBikeList {
@@ -90,7 +128,8 @@
     if ([self shouldShowMap]) { // 拥有位置权限，直接打开地图
         [self openMap];
 
-        [self loadBikeList];
+//        [self loadBikeList];
+        [self loadBikesFromBDCloud];
         
         
         
@@ -153,12 +192,14 @@
     if (_mapView == nil) {
         _mapView = [[BMKMapView alloc]initWithFrame:self.view.bounds];
         _mapView.delegate = self;
-        _mapView.zoomLevel = 15;
+        _mapView.zoomLevel = 17;
         _mapView.showsUserLocation = YES;
-        [_mapView setCompassPosition:CGPointMake(100, 100)];
+        _mapView.showMapPoi = NO;
+        [_mapView setCompassPosition:CGPointMake(300, 300)];
         CGSize compassSize =  self.mapView.compassSize;
-        [_mapView setCompassImage:[UIImage imageNamed:@"compass"]];
+        [_mapView setCompassImage:[UIImage imageNamed:@"poi"]];
         [self.view addSubview:_mapView];
+        
         
         
 //        //初始化标注类BMKPointAnnotation的实例
@@ -195,7 +236,8 @@
         
         [self.mapView updateLocationData:self.userLocation];
         
-        [self.mapView setCenterCoordinate:location.location.coordinate animated:YES];
+        // 设置当前位置为地图的中心和[self.mapView showAnnotations:self.bikeList animated:YES]是有冲突的，如果想设置所有POI（self.bikeList，未必是全部POI）可见，就不要设置当前位置为地图中心
+//        [self.mapView setCenterCoordinate:location.location.coordinate animated:YES];
         
 
         
@@ -274,8 +316,37 @@
 # pragma 点击POI时调整地图使得当前POI们于地图中心
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view {
     CLLocationCoordinate2D coordinate = view.annotation.coordinate;
-    [self.mapView setZoomLevel:20];
+    [self.mapView setZoomLevel:18];
     [self.mapView setCenterCoordinate:coordinate animated:YES];
+}
+
+#pragma BMKCloudSearchDelegate
+- (void)onGetCloudPoiResult:(NSArray *)poiResultList searchType:(int)type errorCode:(int)error {
+    if (error == BMK_CLOUD_NO_ERROR) {
+        self.bikeList = [[NSMutableArray alloc] init];
+//        NSLog(@"%@", poiResultList[0]);
+        BMKCloudPOIList *list = poiResultList[0];
+        
+        for (BMKCloudPOIInfo *poi in list.POIs) {
+            BMKPointAnnotation *annotation = [[BMKPointAnnotation alloc] init];
+            annotation.coordinate =  CLLocationCoordinate2DMake(poi.longitude,poi.latitude);
+            annotation.title = poi.title;
+            [self.bikeList addObject:annotation];
+        }
+        //注：不在在background调用AppKit, UIKit的API，不然会报：Main Thread Checker: UI API called on a background thread: -[UIView initWithFrame:]的错误，解决办法是用这部分操作放到主线程中去
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.mapView addAnnotations:self.bikeList];
+            //将所有annotation显示在地图视图上
+            [self.mapView showAnnotations:self.bikeList animated:YES];
+        });
+        
+    } else {
+        NSLog(@"检索失败");
+    }
+}
+
+- (void)onGetCloudPoiDetailResult:(BMKCloudPOIInfo *)poiDetailResult searchType:(int)type errorCode:(int)error {
+    NSLog(@"%@", poiDetailResult);
 }
 
 
