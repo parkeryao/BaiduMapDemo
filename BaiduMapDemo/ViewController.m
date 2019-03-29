@@ -69,9 +69,30 @@ BMKCloudSearch *search;
         NSLog(@"搜索失败");
     }
 
-    
-    
 }
+
+- (void) loadNearbyBikesFromBDCloudWith: (BMKLocation*)location {
+    if (search == nil) {
+        search = [[BMKCloudSearch alloc]init];
+    }
+    search.delegate = self;
+
+    BMKCloudNearbySearchInfo *nearSearch = [[BMKCloudNearbySearchInfo alloc]init];
+    nearSearch.ak = @"9tSpXUogWAaagWVhTeSZffa6qMArKEjy";
+    nearSearch.geoTableId = 200474;
+//    nearSearch.location = [NSString stringWithFormat:@"%s%f%s%f%s","(", location.location.coordinate.longitude, ",", location.location.coordinate.latitude, ")"];
+    nearSearch.location = [NSString stringWithFormat:@"%f%s%f", location.location.coordinate.longitude, ",", location.location.coordinate.latitude];
+    nearSearch.radius = 20000;//单位是米
+    BOOL flag = [search nearbySearchWithSearchInfo:nearSearch];
+    if (flag) {
+        NSLog(@"搜索成功");
+    } else {
+        NSLog(@"搜索失败");
+    }
+
+}
+
+
 
 - (void)loadBikeList {
     NSURLSession *session = [NSURLSession sharedSession];
@@ -115,7 +136,7 @@ BMKCloudSearch *search;
         [self openMap];
 
 //        [self loadBikeList];
-        [self loadBikesFromBDCloud];
+//        [self loadBikesFromBDCloud];
         
         
         
@@ -239,8 +260,9 @@ BMKCloudSearch *search;
         [self.mapView setCompassImage:[UIImage imageNamed:@"zhinanzhen"]];
         CGSize compassSize =  self.mapView.compassSize;
         
-        [self.BDLocationManager startUpdatingLocation];
+//        [self.BDLocationManager startUpdatingLocation];
 
+        [self loadNearbyBikesFromBDCloudWith:location];
         
     }];
 
