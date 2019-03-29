@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		25718BCB2EF1623B03D0B84E /* libPods-BaiduMapDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF0106A5A9953428C9C0271D /* libPods-BaiduMapDemo.a */; };
+		4E7AFD0E2249106300851382 /* ZDCPinView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7AFD0D2249106300851382 /* ZDCPinView.m */; };
 		4E9EDE1E224318A8003B075C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9EDE1D224318A8003B075C /* AppDelegate.m */; };
 		4E9EDE21224318A8003B075C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E9EDE20224318A8003B075C /* ViewController.m */; };
 		4E9EDE24224318A8003B075C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E9EDE22224318A8003B075C /* Main.storyboard */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E7AFD0C2249106300851382 /* ZDCPinView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZDCPinView.h; sourceTree = "<group>"; };
+		4E7AFD0D2249106300851382 /* ZDCPinView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZDCPinView.m; sourceTree = "<group>"; };
 		4E9EDE19224318A8003B075C /* BaiduMapDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaiduMapDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E9EDE1C224318A8003B075C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4E9EDE1D224318A8003B075C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -67,6 +71,8 @@
 				4E9EDE27224318AA003B075C /* LaunchScreen.storyboard */,
 				4E9EDE2A224318AA003B075C /* Info.plist */,
 				4E9EDE2B224318AA003B075C /* main.m */,
+				4E7AFD0C2249106300851382 /* ZDCPinView.h */,
+				4E7AFD0D2249106300851382 /* ZDCPinView.m */,
 			);
 			path = BaiduMapDemo;
 			sourceTree = "<group>";
@@ -81,6 +87,7 @@
 				4E9EDE15224318A8003B075C /* Sources */,
 				4E9EDE16224318A8003B075C /* Frameworks */,
 				4E9EDE17224318A8003B075C /* Resources */,
+				4224B9E17F6C2F958020A5B3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -136,6 +143,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1012FC34A4C80B4D1FD26E8D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BaiduMapDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4224B9E17F6C2F958020A5B3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BaiduMapDemo/Pods-BaiduMapDemo-resources.sh",
+				"${PODS_ROOT}/BaiduMapKit/BaiduMapKit/BaiduMapAPI_Map.framework/mapapi.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/mapapi.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BaiduMapDemo/Pods-BaiduMapDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4E9EDE15224318A8003B075C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -143,6 +193,7 @@
 			files = (
 				4E9EDE21224318A8003B075C /* ViewController.m in Sources */,
 				4E9EDE2C224318AA003B075C /* main.m in Sources */,
+				4E7AFD0E2249106300851382 /* ZDCPinView.m in Sources */,
 				4E9EDE1E224318A8003B075C /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
