@@ -337,13 +337,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M84B6B78FH;
+				DEVELOPMENT_TEAM = PVS6BMS5N9;
 				INFOPLIST_FILE = BaiduMapDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mobilenow.rnd3.BaiduMapDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobilenow.rnd3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -354,13 +354,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M84B6B78FH;
+				DEVELOPMENT_TEAM = PVS6BMS5N9;
 				INFOPLIST_FILE = BaiduMapDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mobilenow.rnd3.BaiduMapDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobilenow.rnd3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
