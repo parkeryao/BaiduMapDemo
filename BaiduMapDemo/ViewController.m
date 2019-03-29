@@ -37,7 +37,6 @@ BMKCloudSearch *search;
     
     _locationManager =[[CLLocationManager alloc] init];
     
-    
     // 监听app进入前台显示的系统事件
     [[NSNotificationCenter defaultCenter]
         addObserver:self
@@ -70,19 +69,6 @@ BMKCloudSearch *search;
         NSLog(@"搜索失败");
     }
 
-    
-    BMKCloudDetailSearchInfo *cloudLocalInfo1 = [[BMKCloudDetailSearchInfo alloc]init];
-    cloudLocalInfo.ak = @"9tSpXUogWAaagWVhTeSZffa6qMArKEjy";
-    cloudLocalInfo.geoTableId = 200474;
-    cloudLocalInfo.region = @"长沙";
-    cloudLocalInfo.keyword = @"";
-    
-    BOOL flag1 = [search detailSearchWithSearchInfo:cloudLocalInfo1];
-    if (flag) {
-        NSLog(@"搜索成功");
-    } else {
-        NSLog(@"搜索失败");
-    }
     
     
 }
@@ -144,6 +130,7 @@ BMKCloudSearch *search;
                 [_locationManager requestAlwaysAuthorization];
                 [_locationManager requestWhenInUseAuthorization];
                 
+                _locationManager.delegate = self;
                 
             }
         }else{ // 用户之前拒绝了使用位置，尝试引导用户重新设置
@@ -194,12 +181,9 @@ BMKCloudSearch *search;
         _mapView.delegate = self;
         _mapView.zoomLevel = 17;
         _mapView.showsUserLocation = YES;
-        _mapView.showMapPoi = NO;
-        [_mapView setCompassPosition:CGPointMake(300, 300)];
-        CGSize compassSize =  self.mapView.compassSize;
-        [_mapView setCompassImage:[UIImage imageNamed:@"poi"]];
+//        _mapView.showMapPoi = NO;
+       
         [self.view addSubview:_mapView];
-        
         
         
 //        //初始化标注类BMKPointAnnotation的实例
@@ -220,6 +204,7 @@ BMKCloudSearch *search;
     if (_BDLocationManager == nil) {
         _BDLocationManager = [[BMKLocationManager alloc] init];
     }
+    _BDLocationManager.delegate = self;
     
 
     
@@ -229,16 +214,32 @@ BMKCloudSearch *search;
         }
         if (self.userLocation == nil) {
             self.userLocation = [[BMKUserLocation alloc] init];
-            
         }
+        BMKLocationViewDisplayParam *displayParam = [[BMKLocationViewDisplayParam alloc] init];
+        displayParam.locationViewOffsetX = 0;
+        displayParam.locationViewOffsetY = 0;
+        displayParam.isAccuracyCircleShow = YES;
+        //通过如下方法设置定位图片需要把图片放入mapapi.bundle/images 目录下
+        //        displayParam.locationViewImgName = @"poi_me";
+        //下面这个方法不需要mapapi.bundle/images直接从项目资源包中加载
+        displayParam.locationViewImage = [UIImage imageNamed:@"poi_me"];
+        displayParam.accuracyCircleFillColor = [UIColor clearColor];
+        displayParam.accuracyCircleStrokeColor = [UIColor clearColor];
+        [self.mapView updateLocationViewWithParam:displayParam];
         
         self.userLocation.location = location.location;
-        
         [self.mapView updateLocationData:self.userLocation];
         
         // 设置当前位置为地图的中心和[self.mapView showAnnotations:self.bikeList animated:YES]是有冲突的，如果想设置所有POI（self.bikeList，未必是全部POI）可见，就不要设置当前位置为地图中心
 //        [self.mapView setCenterCoordinate:location.location.coordinate animated:YES];
         
+        
+        //目前还是未能成功显示指南针 <ToDo>
+        [self.mapView setCompassPosition:CGPointMake(200, 300)];
+        [self.mapView setCompassImage:[UIImage imageNamed:@"zhinanzhen"]];
+        CGSize compassSize =  self.mapView.compassSize;
+        
+        [self.BDLocationManager startUpdatingLocation];
 
         
     }];
@@ -304,10 +305,12 @@ BMKCloudSearch *search;
 //    return nil;
 //}
 
+
 # pragma <CLLocationManagerDelegate>
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     if ([self shouldShowMap]) {
         [self openMap];
+        [self loadBikesFromBDCloud];
     } else {
         NSLog(@"Not authorized to open map");
     }
@@ -344,6 +347,7 @@ BMKCloudSearch *search;
         NSLog(@"检索失败");
     }
 }
+
 
 - (void)onGetCloudPoiDetailResult:(BMKCloudPOIInfo *)poiDetailResult searchType:(int)type errorCode:(int)error {
     NSLog(@"%@", poiDetailResult);
