@@ -6,6 +6,7 @@
 //  Copyright © 2019 mobilenow. All rights reserved.
 //
 
+#import "ViewController.h"
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 #import <CoreLocation/CoreLocation.h>
@@ -25,11 +26,9 @@
 @property (nonatomic) BOOL enable;
 @property (nonatomic) NSInteger status;
 
-
 @end
 
 @implementation ViewController
-
 
 BMKCloudSearch *search;
 
